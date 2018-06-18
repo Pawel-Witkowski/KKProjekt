@@ -1,45 +1,53 @@
 import projectCrypto
-import sys
-
+from re import sub
+import os
 if __name__ == "__main__":
     print("Greetings. That's example application of HillCipher \t done by Pawel Witkowki")
     text = ""
-    if len(sys.argv) != 1:
-        pathToFile = sys.argv[1]
-        try:
-            with open(pathToFile, "r") as file:
-                text = file.read()
-            print("Application loaded file from parameter as an input text")
-        except Exception as e:
-            print ("Error " + str(e))
-            print("Sorry, you've passed wrong path. You have to enter path file manually on console")
-
-    while text == "":
-        pathToFile = input("Please, enter file path.")
-        try:
-            with open(pathToFile, "r") as file:
-                text = file.read()
-            print("Application loaded file from parameter as an input text")
-            succesfulInput = True
-        except Exception as e:
-            print ("Error " + str(e))
-
+    key = ""
+    answer = "1"
+    fileMode = False
     hill = projectCrypto.HillCipher()
-    succesfulKey = False
-    while not succesfulKey:
-        try:
-            key = input("Please, enter ASCII letters secret key")
-            hill.setEncryptionMatrixWithPassword(key)
-            succesfulKey = True
-        except Exception as e:
-            print("Error " + str(e))
+    while answer != "\n":
+        print("What would you like to do? \n 1. load text \n 2. ecnrypt text \n 3. decrypt text")
+        answer = input()
+        if int(answer) == 1:
+            encryptFile = input("Please, enter filepath. If there is no such file, I will load it as a raw text")
+            try:
+                with open(encryptFile, "r") as file:
+                    text = file.read()
+                fileMode = True
+            except:
+                print ("Wrong path! I loaded your string as a raw text!")
+                test = encryptFile
+                fileMode = False
+        else:
+            succesfulKey = False
+            while not succesfulKey:
+                key = input("Please, insert your keyword. Key has to be square value of int, and his matrix form must be reversible mod26")
+                try:
+                    hill.setEncryptionMatrixWithPassword(key)
+                    succesfulKey = True
+                except Exception as e:
+                    print("Error " + str(e))
+            if int(answer) == 2:
+                output = hill.encrypt(text)
+                if fileMode:
+                    with open(os.path.abspath(encryptFile) + ".enc", "w") as file:
+                        file.write(output)
+                else:
+                    print ("Your encrypted message is \n " + output)
+            elif int(answer) == 3:
+                output = hill.decrypt(text)
+                if fileMode:
+                    with open(os.path.abspath(encryptFile).replace(".enc", ".dec"), "w") as file:
+                        file.write(output)
+                else:
+                    print ("Your decrypted message is \n " + output)
+            else:
+                print("Invalid mode, please try again")
 
-    cipher = hill.encrypt(text)
-    print (cipher)
-    plain = hill.decrypt(cipher)
-    print (plain)
-
-
+## cfhgdefyy
     # matrix2 = [
     #     [2, 5, 7],
     #     [6, 3, 4],
