@@ -9,7 +9,7 @@ if __name__ == "__main__":
     fileMode = False
     hill = projectCrypto.HillCipher()
     while answer != "\n":
-        print("What would you like to do? \n 1. load text \n 2. ecnrypt text \n 3. decrypt text")
+        print("What would you like to do? \n 1. load text \n 2. encrypt text \n 3. decrypt text")
         answer = input()
         if int(answer) == 1:
             encryptFile = input("Please, enter filepath. If there is no such file, I will load it as a raw text")
@@ -19,7 +19,7 @@ if __name__ == "__main__":
                 fileMode = True
             except:
                 print ("Wrong path! I loaded your string as a raw text!")
-                test = encryptFile
+                text = encryptFile
                 fileMode = False
         else:
             succesfulKey = False

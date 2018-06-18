@@ -3,9 +3,6 @@ import projectMath
 from math import gcd, sqrt
 
 class HillCipher:
-    # def __init__(self, encryptionMatrix):
-    #     self.setEncryptionMatrix(encryptionMatrix)
-
     def setEncryptionMatrix(self, encryptionMatrix):
         det = projectMath.matrixDeterminant(encryptionMatrix, 26)
         if gcd(det, 26) != 1:
@@ -66,7 +63,7 @@ def textToUpper(input):
 
 def textToMatrixWithPadding(input, ngram):
     temp = removeNonAlphabeticalSimbols(input)
-    temp = padTextToNumberMultiplication(input, ngram)
+    temp = padTextToNumberMultiplication(temp, ngram)
     output = []
     for i in range(ngram):
         output.append([(ord(temp.upper()[j]) - 65) for j in range(len(temp)) if j % ngram == i])
