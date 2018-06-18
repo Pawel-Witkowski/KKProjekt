@@ -52,25 +52,25 @@ def matrixMultiplicationByConst(A, const, modulo):
             A[i][j] %= modulo
 
 def matrixOfComplements(A, modulo):
-    output = [[0 for row in range(len(A))] for col in range(len(A))]
+    output = [[0 for row in range(len(A))] for col in range(len(A))]    # pusta macierz o takich samych wymiarach jak wejscie
     for i in range(len(output)):
         for j in range(len(output)):
-            tempMatrix = [[0 for row in range(len(output) - 1)] for col in range(len(output) - 1)]
+            tempMatrix = [[0 for row in range(len(output) - 1)] for col in range(len(output) - 1)] # macierz o jeden stopien mniejsza
             tempI = 0
             for k in range(len(A)):
-                if k == i:
+                if k == i:  # wykreslanie wierszu aktualnie rozpatrywanego elementu
                     continue
                 else:
                     tempJ = 0
                     for l in range(len(A)):
-                        if l == j:
+                        if l == j:  # wykreslanie kolumny aktualnie rozpatrywanego elemntu
                             continue
                         else:
-                            tempMatrix[tempI][tempJ] = A[k][l]
+                            tempMatrix[tempI][tempJ] = A[k][l]  # zapelnianie minora
                             tempJ += 1
                 tempI += 1
-            output[i][j] = matrixDeterminant(tempMatrix, modulo)
-            if (i + j) % 2 != 0:
+            output[i][j] = matrixDeterminant(tempMatrix, modulo) # podstawianie pod elementy wyjsciowej wyznaczniki minorow
+            if (i + j) % 2 != 0:    # ustawianie popranwego znaku, na danej pozycji
                 output[i][j] *= -1
                 output[i][j] %= modulo
     return output
@@ -81,15 +81,12 @@ def inversionModulo(number, modulo):
             return i
 
 def matrixInversion(matrix, modulo):
-    output = matrixOfComplements(matrix, modulo)
-    # print("Macierz dopelnien alg")
-    # print(output)
-    output = matrixTransposition(output)
-    # print("Macierz dopelnien alg transponowana")
-    # print(output)
-    detMatrix = matrixDeterminant(matrix, modulo)
-    # print("Wyznacznik " + str(detMatrix))
-    invDetMatrix = inversionModulo(detMatrix, modulo)
-    # print("Odwrotnosc Wyznacznika " + str(detMatrix))
-    matrixMultiplicationByConst(output, invDetMatrix, modulo)
+    '''
+    Obliczanie macierzy odwrotnej modulo liczba.
+    '''
+    output = matrixOfComplements(matrix, modulo)    #macierz dopełnieniń algebraicznych
+    output = matrixTransposition(output)            #transpozycja macierzy dopełnień
+    detMatrix = matrixDeterminant(matrix, modulo)   #wyznacznik macierzy wejściowej
+    invDetMatrix = inversionModulo(detMatrix, modulo)   #odwrotność wyznacznika
+    matrixMultiplicationByConst(output, invDetMatrix, modulo)   #mnożenie macierzy przez stałą
     return output

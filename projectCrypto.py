@@ -33,46 +33,51 @@ def keywordToMatrix(input):
     for i in range(1, border + 1):
         if (i * i == len(input)):
             size = i
-    if size == 0:
-        raise Exception ("string must be a square of an integer!")
+    if size == 0:   # sprawdzenie, czy dlugosc klucza to kwadrat naturalnej
+        raise Exception("string must be a square of an integer!")
     else:
-        output = [[0 for row in range(size)] for col in range(size)]
+        output = [[0 for row in range(size)] for col in range(size)] # stworzenie pustej macierzy
         it = 0
         for i in range(len(output)):
             for j in range(len(output)):
-                output[i][j] = ord(input.upper()[it]) - 65
+                output[i][j] = ord(input.upper()[it]) - 65 # zapelnienie macierzy kluczem
                 it += 1
         return output
 
 def removeNonAlphabeticalSimbols(input):
     from re import compile
-    reg = compile("[^a-zA-Z]")
-    return reg.sub('', input)
+    reg = compile("[^a-zA-Z]")  # regex którego musi odpowiadać tekst
+    return reg.sub('', input)   # usunięcie wszystkich znaków, z wyjątkiem odpowiadających reg
 
 def padTextToNumberMultiplication(input, number):
     rem = len(input) % number
     if rem != 0:
-        paddingSize = number - rem
-        padding = ''.join(["X" for i in range(paddingSize)])
+        paddingSize = number - rem  # ile znaków brakuje
+        padding = ''.join(["X" for i in range(paddingSize)])    # stworzenie paddingu za pomocą listy składanej
         return input + padding
     else:
-        return input
+        return input    # gdy tekst jest wielokrotnością n, brak dopełnienia
 
 def textToUpper(input):
     return input.upper()
 
 def textToMatrixWithPadding(input, ngram):
-    temp = removeNonAlphabeticalSimbols(input)
-    temp = padTextToNumberMultiplication(temp, ngram)
+    temp = removeNonAlphabeticalSimbols(input)  # usuniecie wszystkich niealfabetycznych znakow
+    temp = padTextToNumberMultiplication(temp, ngram) # padding tekstu
     output = []
     for i in range(ngram):
         output.append([(ord(temp.upper()[j]) - 65) for j in range(len(temp)) if j % ngram == i])
+        # zamiana tekstu na macierz
     return output
 
 def matrixToText(input):
-    transInput = projectMath.matrixTransposition(input)
+    '''
+    Zamiana macierzy na tekst. Z racji, że ciężko jest czytać kolumnami tekst, dużo prościej
+    najpierw stransponować macierz i czytać dopiero wtedy wierszami.
+    '''
+    transInput = projectMath.matrixTransposition(input) # transpozycja macierzy wejsciowej
     output = ""
     for i in range(len(transInput)):
         for j in range(len(transInput[0])):
-            output += chr(transInput[i][j] + 65)
+            output += chr(transInput[i][j] + 65)    # dopisywanie do tekstu wyjsciowego aktualnego znaku
     return output
