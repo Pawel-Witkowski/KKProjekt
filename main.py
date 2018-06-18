@@ -1,6 +1,12 @@
 import projectCrypto
-from re import sub, compile
 import os
+
+# key = cfhgdefyy
+# keyMatrix = [
+#     [2, 5, 7],
+#     [6, 3, 4],
+#     [5, -2, -2]
+# ]
 if __name__ == "__main__":
     print("Greetings. That's example application of HillCipher \t done by Pawel Witkowki")
     text = ""
@@ -9,7 +15,7 @@ if __name__ == "__main__":
     fileMode = False
     hill = projectCrypto.HillCipher()
     while answer != "":
-        answer = input("What would you like to do? \n 1. load text \n 2. encrypt text \n 3. decrypt text\n")
+        answer = input("What would you like to do? \n 1. load text \n 2. encrypt text \n 3. decrypt text\n sampleKey = cfhgdefyy\n")
         if answer == "1":
             encryptFile = input("Please, enter filepath. If there is no such file, I will load it as a raw text\n")
             try:
